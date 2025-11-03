@@ -135,13 +135,13 @@ var AllRulesets map[string]Ruleset = map[string]Ruleset{
 		InitBoard: rsf.DefaultInitBoard,
 	},
 	"Checkers": {
-		Name: "Chechers",
+		Name: "Checkers",
 		PieceRules: map[board.PieceType]func(board.Board, int, int) bool{
-			board.Pawn:   rsf.DefaultPawn,
+			board.Pawn:   rsf.CheckersPawn,
 			board.Rook:   rsf.DefaultRook,
 			board.Knight: rsf.DefaultKnight,
 			board.Bishop: rsf.DefaultBishop,
-			board.King:   rsf.DefaultKing,
+			board.King:   rsf.CheckersKing,
 			board.Queen:  rsf.DefaultQueen,
 		},
 		Width:     8,
