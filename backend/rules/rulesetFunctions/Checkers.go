@@ -1,8 +1,6 @@
 package rulesetfunctions
 
 import (
-	"fmt"
-
 	"prushton.com/randochess/v2/board"
 )
 
@@ -56,7 +54,6 @@ func CheckersMove(self *board.Board, start int, end int, team board.Team) board.
 	// handle turning into kings
 	white_piece_at_last_rank := end/self.Height == 0 && self.Pieces[end].GetPieceTeam() == board.White
 	black_piece_at_first_rank := end/self.Height == 7 && self.Pieces[end].GetPieceTeam() == board.Black
-	fmt.Printf("%v %v", white_piece_at_last_rank, black_piece_at_first_rank)
 	if white_piece_at_last_rank || black_piece_at_first_rank {
 		self.Pieces[end].SetPieceType(board.King)
 	}
