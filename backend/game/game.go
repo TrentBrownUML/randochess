@@ -60,10 +60,7 @@ func (self *Game) Move(start int, end int) error {
 		return fmt.Errorf("Cannot take own team's piece")
 	}
 
-	// switch turn
-	self.Turn = self.Turn.OtherTeam()
-
-	self.Ruleset.Move(&self.Board, start, end)
+	self.Turn = self.Ruleset.Move(&self.Board, start, end, self.Turn)
 
 	self.Winner = self.Ruleset.GetWinner(self.Board)
 

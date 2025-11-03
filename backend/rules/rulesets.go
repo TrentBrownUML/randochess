@@ -134,7 +134,7 @@ var AllRulesets map[string]Ruleset = map[string]Ruleset{
 		GetWinner: rsf.DefaultGetWinner,
 		InitBoard: rsf.DefaultInitBoard,
 	},
-	"Chechers": {
+	"Checkers": {
 		Name: "Chechers",
 		PieceRules: map[board.PieceType]func(board.Board, int, int) bool{
 			board.Pawn:   rsf.DefaultPawn,
@@ -146,8 +146,8 @@ var AllRulesets map[string]Ruleset = map[string]Ruleset{
 		},
 		Width:     8,
 		Height:    8,
-		Move:      rsf.DefaultMove,
-		GetWinner: rsf.DefaultGetWinner,
+		Move:      rsf.CheckersMove,
+		GetWinner: rsf.CheckersGetWinner,
 		InitBoard: rsf.CheckersInitBoard,
 	},
 }

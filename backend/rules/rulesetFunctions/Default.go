@@ -6,10 +6,11 @@ import (
 	"prushton.com/randochess/v2/board"
 )
 
-func DefaultMove(self *board.Board, start int, end int) {
+func DefaultMove(self *board.Board, start int, end int, team board.Team) board.Team {
 	self.Pieces[end] = self.Pieces[start]
 	self.Pieces[start].SetPieceTeam(board.NoTeam)
 	self.Pieces[end].SetPieceMoved()
+	return team.OtherTeam()
 }
 
 func DefaultGetWinner(self board.Board) board.Team {

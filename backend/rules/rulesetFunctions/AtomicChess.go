@@ -2,7 +2,7 @@ package rulesetfunctions
 
 import "prushton.com/randochess/v2/board"
 
-func AtomicChessMove(self *board.Board, start int, end int) {
+func AtomicChessMove(self *board.Board, start int, end int, team board.Team) board.Team {
 	if self.Pieces[end].GetPieceTeam() == board.NoTeam {
 		self.Pieces[end] = self.Pieces[start]
 		self.Pieces[start].SetPieceTeam(board.NoTeam)
@@ -11,4 +11,5 @@ func AtomicChessMove(self *board.Board, start int, end int) {
 		self.Pieces[end].SetPieceTeam(board.NoTeam)
 		self.Pieces[start].SetPieceTeam(board.NoTeam)
 	}
+	return team.OtherTeam()
 }

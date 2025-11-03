@@ -13,7 +13,7 @@ type Ruleset struct {
 	PieceRules map[board.PieceType]func(board.Board, int, int) bool
 	Width      int
 	Height     int
-	Move       func(*board.Board, int, int)
+	Move       func(*board.Board, int, int, board.Team) board.Team
 	GetWinner  func(board.Board) board.Team
 	InitBoard  func(*board.Board) error
 }
