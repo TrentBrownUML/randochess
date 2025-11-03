@@ -52,7 +52,7 @@ var AllRulesets map[string]Ruleset = map[string]Ruleset{
 		Height:    8,
 		Move:      rsf.DefaultMove,
 		GetWinner: rsf.DefaultGetWinner,
-		InitBoard: rsf.DefaultInitBoard,
+		InitBoard: rsf.OopsAllKnightsInitBoard,
 	},
 	"PREPARE THYSELF": {
 		Name: "PREPARE THYSELF",
