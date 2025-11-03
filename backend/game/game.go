@@ -31,7 +31,7 @@ func New(rulesetName string) (Game, error) {
 		LastRequestedAt: time.Now().Unix(),
 	}
 
-	game.Board.InitBoard()
+	game.Ruleset.InitBoard(&game.Board)
 
 	return game, nil
 }
