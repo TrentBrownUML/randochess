@@ -2,6 +2,7 @@ package rules
 
 import (
 	"fmt"
+	"math/rand"
 
 	"prushton.com/randochess/v2/board"
 )
@@ -150,5 +151,16 @@ func AtomicChessMove(self *board.Board, start int, end int) {
 	} else {
 		self.Pieces[end].SetPieceTeam(board.NoTeam)
 		self.Pieces[start].SetPieceTeam(board.NoTeam)
+	}
+}
+
+func DementiaMove(self *board.Board, start int, end int) {
+	self.Pieces[end] = self.Pieces[start]
+	self.Pieces[start].SetPieceTeam(board.NoTeam)
+	self.Pieces[end].SetPieceMoved()
+
+	r := rand.Intn(96)
+	if r < 64 && self.Pieces[r].GetPieceType() != board.King {
+		self.Pieces[r].SetPieceTeam(board.NoTeam)
 	}
 }
