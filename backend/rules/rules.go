@@ -21,10 +21,11 @@ type Ruleset struct {
 
 func (self Ruleset) MarshalJSON() ([]byte, error) {
 	type MarshalableRuleset struct {
-		Name string `json:"name"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
 	}
 
-	return json.Marshal(MarshalableRuleset{Name: self.Name})
+	return json.Marshal(MarshalableRuleset{Name: self.Name, Description: self.Description})
 }
 
 func SelectRuleset(name string) (Ruleset, error) {
