@@ -5,8 +5,7 @@
 }
 
 .createGame {
-    display: flex;
-    flex-direction: row;
+    display: block;
     margin: 40px;
     align-items: center;
     justify-content: center;
@@ -17,14 +16,13 @@
 
 }
 
-h3 {
-    margin: 3px;
-}
+/*h2 {} */
 
 .createGameButton {
-    height: 50px;
-    margin: 0px;
-    margin-left: 20px;
+    display: grid;
+    margin: auto;
+    place-content: center;
+
 }
 
 .selectGamerule {
@@ -52,18 +50,58 @@ h3 {
     text-align: center;
 }
 
-.joinGameTextbox[type=number]::-webkit-inner-spin-button, 
-.joinGameTextbox[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+.joinGameTextbox[type=number]::-webkit-inner-spin-button,
+.joinGameTextbox[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .joinGameTextbox[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .joinGameButton {
     height: 50px;
     margin: 0px;
     margin-left: 20px;
+}
+
+.headerTextBox {
+    display: flex;
+    /* center text vertically */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    height: 140px;
+    /* make the box taller */
+    margin-top: 8px;
+    /* reduce top space so box sits higher; use negative to lift further */
+    /* alternative to lift: position: relative; top: -40px; */
+}
+
+.headerTextBox h1 {
+    margin: 0;
+    font-size: clamp(1.5rem, 6vw, 4rem);
+    letter-spacing: 5px;
+    /* responsive, much bigger text */
+    line-height: 11;
+    font-weight: 700;
+    overflow: visible;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* per-character header styling transitions and inline-block for transforms */
+.char {
+    display: inline-block;
+    transition: color 1000ms ease, transform 1000ms ease, text-shadow 1000ms ease, background-color 1000ms ease, filter 1000ms ease;
 }
