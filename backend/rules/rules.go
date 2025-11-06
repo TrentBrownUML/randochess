@@ -19,13 +19,13 @@ type Ruleset struct {
 	InitBoard   func(*board.Board) error
 }
 
-func (self Ruleset) MarshalJSON() ([]byte, error) {
+func (rs Ruleset) MarshalJSON() ([]byte, error) { //changing name a bit for consitency
 	type MarshalableRuleset struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
 
-	return json.Marshal(MarshalableRuleset{Name: self.Name, Description: self.Description})
+	return json.Marshal(MarshalableRuleset{Name: rs.Name, Description: rs.Description})
 }
 
 func SelectRuleset(name string) (Ruleset, error) {

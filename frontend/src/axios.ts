@@ -14,7 +14,7 @@ export async function CreateGame(ruleName: string): Promise<NewGameResponse> {
 
 export async function Fetch(code: string): Promise<[ResponseGame, string]> {
 	const url = `${backend_url}/game/fetch`;
-	const response = await axios.post(url, `{"code": "${code}"}`, {validateStatus: (_) => {return true}});
+	const response = await axios.post(url, `{"code": "${code}"}`, { validateStatus: (_) => { return true } });
 
 	if (response.status != 200) {
 		return [{} as ResponseGame, "Invalid Code"]

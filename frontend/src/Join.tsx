@@ -79,23 +79,22 @@ function App() {
 	}
 
 	async function get_rulesets(): Promise<JSX.Element[]> {
-		let rulesets = await FetchRulesets()
+		// Fetch rulesets from backend (each ruleset has { name, description })
+		const rulesResponse = await FetchRulesets()
 
-		rulesets.rulesets = rulesets.rulesets.sort()
+		// Extract names and sort them
+		const names = rulesResponse.rulesets.map(r => r.name).sort((a, b) => a.localeCompare(b))
 
-		rulesets.rulesets = ["Random"].concat(rulesets.rulesets)
+		// Put Random first
+		names.unshift("Random")
 
-		let html: JSX.Element[] = []
-
-		rulesets.rulesets.forEach(element => {
-			if (element == "Default") {
-				html = [html[0], <option value={element}>{element}</option>].concat(html.slice(1))
-				return
-			}
+		const html: JSX.Element[] = []
+		names.forEach((element) => {
+			// ensure unique key for each option
 			html.push(
-				<option value={element}>{element}</option>
+				<option key={element} value={element}>{element}</option>
 			)
-		});
+		})
 
 		return html
 	}
