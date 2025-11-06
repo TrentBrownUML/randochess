@@ -48,8 +48,13 @@ type ResponseNew struct {
 	GuestCode string `json:"guestCode"`
 }
 
+type RulesetInfo struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
 type ResponseFetchRuleset struct {
-	Rulesets []string `json:"rulesets"`
+	Rulesets []RulesetInfo `json:"rulesets"`
 }
 
 func new(w http.ResponseWriter, r *http.Request) {
@@ -239,11 +244,11 @@ func fetchRulesets(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 
 	response := ResponseFetchRuleset{
-		Rulesets: make([]string, 0, len(rules.AllRulesets)),
+		Rulesets: make([]RulesetInfo, 0, len(rules.AllRulesets)),
 	}
 
-	for k := range rules.AllRulesets {
-		response.Rulesets = append(response.Rulesets, k)
+	for _, v := range rules.AllRulesets {
+		response.Rulesets = append(response.Rulesets, RulesetInfo{Name: v.Name, Description: v.Description})
 	}
 
 	data, err := json.Marshal(response)
