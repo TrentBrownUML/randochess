@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { CreateGame, FetchRulesets } from "./axios.ts"
 import './Join.css'
+import './utils/color.ts'
+import complementaryHsl from './utils/color.ts';
 
 
 
@@ -22,7 +24,7 @@ function App() {
 	function generateStyle(): React.CSSProperties {
 		const pick = Math.random()
 		const color = randomColor()
-		const textShadowColor = randomColor()
+		const textShadowColor = complementaryHsl(color)
 		const rotate = (Math.random() - 0.5) * 20 // -10deg to 10deg // decreasing range to avoid char overlap
 		const translateY = (Math.random() - 0.5) * 8 // -4px to 4px
 
@@ -49,7 +51,7 @@ function App() {
 			case pick < 0.7:
 				return {
 					color,
-					textShadow: `0 0 6px ${textShadowColor}, 0 0 12px ${textShadowColor}`,
+					textShadow: `0 0 4px ${textShadowColor}, 0 0 12px ${textShadowColor}`,
 					transform: `translateY(${translateY}px)`,
 				}
 			// subtle color change
