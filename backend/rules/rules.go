@@ -9,13 +9,14 @@ import (
 )
 
 type Ruleset struct {
-	Name       string `json:"name"`
-	PieceRules map[board.PieceType]func(board.Board, int, int) bool
-	Width      int
-	Height     int
-	Move       func(*board.Board, int, int, board.Team) board.Team
-	GetWinner  func(board.Board) board.Team
-	InitBoard  func(*board.Board) error
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	PieceRules  map[board.PieceType]func(board.Board, int, int) bool
+	Width       int
+	Height      int
+	Move        func(*board.Board, int, int, board.Team) board.Team
+	GetWinner   func(board.Board) board.Team
+	InitBoard   func(*board.Board) error
 }
 
 func (self Ruleset) MarshalJSON() ([]byte, error) {
