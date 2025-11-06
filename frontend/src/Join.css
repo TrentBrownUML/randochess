@@ -16,7 +16,7 @@
 
 }
 
-h2 {}
+/*h2 {} */
 
 .createGameButton {
     display: grid;
@@ -58,6 +58,8 @@ h2 {}
 
 .joinGameTextbox[type=number] {
     -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .joinGameButton {
@@ -89,10 +91,11 @@ h2 {}
 .headerTextBox h1 {
     margin: 0;
     font-size: clamp(1.5rem, 6vw, 4rem);
+    letter-spacing: 5px;
     /* responsive, much bigger text */
-    line-height: 1;
+    line-height: 11;
     font-weight: 700;
-    overflow: hidden;
+    overflow: visible;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -100,5 +103,5 @@ h2 {}
 /* per-character header styling transitions and inline-block for transforms */
 .char {
     display: inline-block;
-    transition: color 400ms ease, transform 500ms ease, text-shadow 500ms ease, background-color 400ms ease, filter 400ms ease;
+    transition: color 1000ms ease, transform 1000ms ease, text-shadow 1000ms ease, background-color 1000ms ease, filter 1000ms ease;
 }

@@ -23,7 +23,7 @@ function App() {
 		const pick = Math.random()
 		const color = randomColor()
 		const textShadowColor = randomColor()
-		const rotate = (Math.random() - 0.5) * 20 // -10deg to 10deg
+		const rotate = (Math.random() - 0.5) * 20 // -10deg to 10deg // decreasing range to avoid char overlap
 		const translateY = (Math.random() - 0.5) * 8 // -4px to 4px
 
 		switch (true) {
@@ -35,6 +35,7 @@ function App() {
 					transform: `rotate(${rotate}deg) translateY(${translateY}px)`,
 				}
 			// inverted / filled background
+			/* Commenting out for now, may restrict the color selection later if this feature is determined to be usable without destroying readibility
 			case pick < 0.45:
 				return {
 					color: '#fff',
@@ -43,6 +44,7 @@ function App() {
 					transform: `rotate(${rotate / 2}deg)`,
 					filter: 'contrast(120%)',
 				}
+			*/
 			// neon / glow
 			case pick < 0.7:
 				return {
@@ -61,8 +63,9 @@ function App() {
 
 	useEffect(() => {
 		// generate a random style per character on mount
-		const styles: React.CSSProperties[] = HEADER_TEXT.split("").map(() => generateStyle())
-		setCharStyles(styles)
+		const styles: React.CSSProperties[] = HEADER_TEXT.split("").map(() => generateStyle());
+		if (styles)
+			setCharStyles(styles);
 	}, [])
 
 	async function create_game() {
