@@ -26,6 +26,12 @@ When you take a piece, both pieces disappear
 ### Knook
 Rooks can move as knights aswell as their default moveset
 
+### Dementia
+Whenever a piece is moved, there is a random chance a non king piece will disappear
+
+### Checkers
+Literally just checkers but with chess pieces
+
 # Development
 * Install npm and go
 * Run the backend with `cd backend && go run .`
