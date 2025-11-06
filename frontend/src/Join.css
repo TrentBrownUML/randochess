@@ -52,14 +52,14 @@ h3 {
     text-align: center;
 }
 
-.joinGameTextbox[type=number]::-webkit-inner-spin-button, 
-.joinGameTextbox[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+.joinGameTextbox[type=number]::-webkit-inner-spin-button,
+.joinGameTextbox[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .joinGameTextbox[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 .joinGameButton {
