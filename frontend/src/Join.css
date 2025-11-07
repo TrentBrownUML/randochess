@@ -1,3 +1,4 @@
+/*TODO unify and or combine functionality of the join.css and index.css files. */
 .joinContainer {
     display: flex;
     flex-direction: column;
@@ -5,7 +6,7 @@
 }
 
 .createGame {
-    display: block;
+    display: flex;
     margin: 40px;
     align-items: center;
     justify-content: center;
@@ -54,6 +55,20 @@
 .joinGameTextbox[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.changeTeamButtonWhite {
+    display: grid;
+    margin: auto;
+    place-content: center;
+    background-color: white;
+}
+
+.changeTeamButtonBlack {
+    display: grid;
+    margin: auto;
+    place-content: center;
+    background-color: black;
 }
 
 .joinGameTextbox[type=number] {

@@ -3,14 +3,15 @@ import { CreateGame, FetchRulesets } from "./axios.ts"
 import './Join.css'
 import './utils/color.ts'
 import complementaryHsl from './utils/color.ts';
-
+import Team from './models/Team.ts';
 
 
 function App() {
 
-	const [code, setCode] = useState("");
+	const [code, setCode] = useState<string>("");
 	const [ruleset, setRuleset] = useState("Random");
 	const [rulesets, setRulesets] = useState<JSX.Element[]>([])
+	const [team, setTeam] = useState<Team>(Team.White)
 
 	// per-character inline styles for the header text
 	const [charStyles, setCharStyles] = useState<React.CSSProperties[]>([])
@@ -63,6 +64,15 @@ function App() {
 		}
 	}
 
+	function changeTeam() {
+		if (team == Team.White) {
+			setTeam(Team.Black)
+
+		} else {
+			setTeam(Team.White)
+		}
+	}
+
 	useEffect(() => {
 		// generate a random style per character on mount
 		const styles: React.CSSProperties[] = HEADER_TEXT.split("").map(() => generateStyle());
@@ -71,7 +81,7 @@ function App() {
 	}, [])
 
 	async function create_game() {
-		let codes = await CreateGame(ruleset);
+		let codes = await CreateGame(ruleset, team);
 		console.log(codes);
 		localStorage.setItem("guest_code", codes.guestCode);
 		window.location.href = `/play?code=${codes.hostCode}`;
@@ -134,6 +144,9 @@ function App() {
 
 					<button onClick={create_game} className="createGameButton">
 						<p>Create Game</p>
+					</button>
+					<button onClick={changeTeam} className={team == Team.White ? "changeTeamButtonWhite" : "changeTeamButtonBlack"}>
+						<p>Toggle Team</p>
 					</button>
 
 				</div>
