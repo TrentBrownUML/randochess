@@ -41,6 +41,7 @@ type ResponseFetch struct {
 
 type RequestNew struct {
 	RuleName string `json:"ruleName"`
+	Team     int    `json:"team"`
 }
 
 type ResponseNew struct {
@@ -107,12 +108,12 @@ func new(w http.ResponseWriter, r *http.Request) {
 
 	host := CodeInfo{
 		GameIndex: gameID,
-		Team:      board.White,
+		Team:      board.Team(parsedBody.Team),
 	}
 
 	guest := CodeInfo{
 		GameIndex: gameID,
-		Team:      board.Black,
+		Team:      board.Team(parsedBody.Team).OtherTeam(),
 	}
 
 	games[gameID] = newgame
