@@ -1,4 +1,5 @@
-/*TODO unify and or combine functionality of the join.css and index.css files. */
+/*TODO unify and or combine functionality of the join.css and index.css files. 
+TODO re add hover effects to buttons and make them proper.*/
 .joinContainer {
     display: flex;
     flex-direction: column;
@@ -62,13 +63,37 @@
     margin: auto;
     place-content: center;
     background-color: white;
+    color: black;
+}
+
+.changeTeamButtonWhite span {
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.changeTeamButtonWhite span:after {
+    content: replacement()'Change To Black?';
+    position: absolute;
+    opacity: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.changeTeamButtonWhite:hover span {
+    padding-right: 25px;
+}
+
+.changeTeamButtonWhite:hover span:after {
+    opacity: 1;
+    right: 0;
 }
 
 .changeTeamButtonBlack {
     display: grid;
     margin: auto;
     place-content: center;
-    background-color: black;
+    background-color: #1a1a1a;
 }
 
 .joinGameTextbox[type=number] {

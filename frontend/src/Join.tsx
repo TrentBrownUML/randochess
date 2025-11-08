@@ -146,7 +146,7 @@ function App() {
 						<p>Create Game</p>
 					</button>
 					<button onClick={changeTeam} className={team == Team.White ? "changeTeamButtonWhite" : "changeTeamButtonBlack"}>
-						<p>Toggle Team</p>
+						<span>Toggle Team</span>
 					</button>
 
 				</div>
