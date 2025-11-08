@@ -11,7 +11,8 @@ function App() {
 	const [code, setCode] = useState<string>("");
 	const [ruleset, setRuleset] = useState("Random");
 	const [rulesets, setRulesets] = useState<JSX.Element[]>([])
-	const [team, setTeam] = useState<Team>(Team.White)
+	const [rulesetDescriptions, setRulesetDescriptions] = useState<Record<string, string>>({})
+	const [team, setTeam] = useState<Team>(Team.Black)
 
 	// per-character inline styles for the header text
 	const [charStyles, setCharStyles] = useState<React.CSSProperties[]>([])
@@ -97,6 +98,15 @@ function App() {
 		// Extract names and sort them
 		const names = rulesResponse.rulesets.map(r => r.name).sort((a, b) => a.localeCompare(b))
 
+		// build description map
+		const descMap: Record<string, string> = {}
+		rulesResponse.rulesets.forEach((r: any) => {
+			descMap[r.name] = r.description || ''
+		})
+		// provide a default description for Random
+		descMap['Random'] = descMap['Random'] || 'Creates a game using a randomly selected ruleset.'
+		setRulesetDescriptions(descMap)
+
 		// Put Random first
 		names.unshift("Random")
 
@@ -110,6 +120,8 @@ function App() {
 
 		return html
 	}
+
+
 
 	useEffect(() => {
 		async function init() {
@@ -136,26 +148,33 @@ function App() {
 				<div className='createGame'>
 
 					<div className='selectGamerule'>
-						<h2>Select a Ruleset:</h2> <br />
+						<label htmlFor="ruleset" className="rulesetLabel">Select a Ruleset:</label>
+						<br />
 						<select name="ruleset" id="ruleset" onChange={(e) => setRuleset(e.target.value)}>
 							{rulesets}
 						</select>
+
+						{/* dynamic description for selected ruleset */}
+						<div className='rulesetDescription' aria-live="polite">
+							{rulesetDescriptions[ruleset] || (ruleset === 'Random' ? 'Creates a game using a randomly selected ruleset.' : 'No description available.')}
+						</div>
+
+						<div className='buttonColumn'>
+							<button onClick={create_game} className="createGameButton" type="button" aria-label="Create Game">
+								<span>Create Game</span>
+							</button>
+							<button onClick={changeTeam} className={team == Team.White ? "changeTeamButtonWhite" : "changeTeamButtonBlack"}>
+								<span>Toggle Team</span>
+							</button>
+						</div>
 					</div>
 
-					<button onClick={create_game} className="createGameButton">
-						<p>Create Game</p>
-					</button>
-					<button onClick={changeTeam} className={team == Team.White ? "changeTeamButtonWhite" : "changeTeamButtonBlack"}>
-						<span>Toggle Team</span>
-					</button>
 
 				</div>
 
-				<b>or</b>
 
 				<div className='joinGame'>
-
-					<input placeholder="Enter a join code" type="number" onChange={(e) => { setCode(e.target.value) }} className='joinGameTextbox' />
+					<input placeholder="Or enter a join code" type="number" onChange={(e) => { setCode(e.target.value) }} className='joinGameTextbox' />
 					<button onClick={join_game} className='joinGameButton'>
 						Join Game
 					</button>

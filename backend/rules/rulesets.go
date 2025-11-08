@@ -93,7 +93,7 @@ var AllRulesets map[string]Ruleset = map[string]Ruleset{
 	},
 	"Atomic Chess": {
 		Name:        "Atomic Chess",
-		Description: "Whenever you take a piece, both your and the enemy's piece disappear",
+		Description: "Whenever you take a piece, both you and your enemy's piece disappear",
 		PieceRules: map[board.PieceType]func(board.Board, int, int) bool{
 			board.Pawn:   rsf.DefaultPawn,
 			board.Rook:   rsf.DefaultRook,
