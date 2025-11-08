@@ -64,6 +64,8 @@ TODO re add hover effects to buttons and make them proper.*/
     place-content: center;
     background-color: white;
     color: black;
+    min-width: fit-content;
+    min-height: fit-content;
 }
 
 .changeTeamButtonWhite span {
@@ -73,20 +75,19 @@ TODO re add hover effects to buttons and make them proper.*/
 }
 
 .changeTeamButtonWhite span:after {
-    content: replacement()'Change To Black?';
+    content: 'Change To Black?';
     position: absolute;
     opacity: 0;
     right: -20px;
-    transition: 0.5s;
-}
-
-.changeTeamButtonWhite:hover span {
-    padding-right: 25px;
+    top: -10px;
+    /*transition: 0.5s;*/
+    background-color: white;
 }
 
 .changeTeamButtonWhite:hover span:after {
     opacity: 1;
     right: 0;
+    top: -10px;
 }
 
 .changeTeamButtonBlack {
@@ -94,6 +95,31 @@ TODO re add hover effects to buttons and make them proper.*/
     margin: auto;
     place-content: center;
     background-color: #1a1a1a;
+    color: white;
+    min-width: fit-content;
+    min-height: fit-content;
+}
+
+.changeTeamButtonBlack span {
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.changeTeamButtonBlack span:after {
+    content: 'Change To White?';
+    position: absolute;
+    opacity: 0;
+    right: -20px;
+    top: -10px;
+    /*transition: 0.5s;*/
+    background-color: #1a1a1a;
+}
+
+.changeTeamButtonBlack:hover span:after {
+    opacity: 1;
+    right: 0;
+    top: -10px;
 }
 
 .joinGameTextbox[type=number] {
