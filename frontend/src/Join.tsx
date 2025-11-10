@@ -4,7 +4,7 @@ import './Join.css'
 import './utils/color.ts'
 import complementaryHsl from './utils/color.ts';
 import Team from './models/Team.ts';
-
+//TODO add enter key functionality to join stuff again?
 
 function App() {
 
