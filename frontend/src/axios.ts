@@ -8,7 +8,7 @@ const backend_url: string = import.meta.env.VITE_REACT_APP_BACKEND_URL.endsWith(
 
 export async function CreateGame(ruleName: string): Promise<NewGameResponse> {
 	const url = `${backend_url}/game/new`;
-	const response = await axios.post(url, `{"ruleName": "${ruleName}"}`);
+	const response = await axios.post(url, `{"ruleName": "${ruleName}", "team": 2}`);
 	return response.data as NewGameResponse;
 }
 

@@ -91,19 +91,38 @@ func DefaultPawn(self board.Board, start int, end int) bool {
 	return false
 }
 
-func DefaultRook(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+func DefaultRook(self board.Board, start int, end int) ([]int, []int) {
+	var validMoveLocations []int = make([]int, 0)
+	var directions [4][2]int = [4][2]int{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 
-	return ((delta_x == 0) != (delta_y == 0)) && CheckLineOfSight(self, start, end)
+	// construct an array of spaces where the piece can move.
+	// Iterate over every direction and look until we reach the edge of the board or a piece
+	for _, direction := range directions {
+		var distance int = 1
+		var reachedLimit bool = false
+
+		for !reachedLimit {
+
+			destination := start + direction[0]*distance + direction[1]*self.Width*distance
+
+			if CheckLineOfSight(self, start, destination) {
+				validMoveLocations = append(validMoveLocations, destination)
+			} else {
+				reachedLimit = true
+			}
+
+			distance += 1
+		}
+	}
+
+	// most pieces can take at the same spots they can move to, so i just return them both
+	return validMoveLocations, validMoveLocations
 }
 
-func DefaultKnight(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
-
-	return (Abs(delta_x) == 1 && Abs(delta_y) == 2) || (Abs(delta_x) == 2 && Abs(delta_y) == 1)
+func DefaultKnight(self board.Board, start int, end int) ([]int, []int) {
+	var validMoveLocations []int = make([]int)
 }
+
 func DefaultBishop(self board.Board, start int, end int) bool {
 	var delta_x int = start%self.Width - end%self.Width
 	var delta_y int = start/self.Height - end/self.Height
