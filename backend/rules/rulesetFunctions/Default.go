@@ -120,7 +120,19 @@ func DefaultRook(self board.Board, start int, end int) ([]int, []int) {
 }
 
 func DefaultKnight(self board.Board, start int, end int) ([]int, []int) {
-	var validMoveLocations []int = make([]int)
+	var moveLocations [8][2]int = [8][2]int{{2, 1}, {2, -1}, {1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {-2, 1}, {-2, -1}}
+	var validMoveLocations []int = make([]int, 0)
+
+	for _, location := range moveLocations {
+		var destination = start + location[0] + location[1]*self.Width
+		if destination >= self.Width*self.Height || destination < 0 {
+			continue
+		}
+
+		validMoveLocations = append(validMoveLocations, destination)
+	}
+
+	return validMoveLocations, validMoveLocations
 }
 
 func DefaultBishop(self board.Board, start int, end int) bool {
