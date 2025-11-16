@@ -163,11 +163,20 @@ func DefaultBishop(self board.Board, start int, end int) ([]int, []int) {
 	return validMoveLocations, validMoveLocations
 }
 
-func DefaultKing(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+func DefaultKing(self board.Board, start int, end int) ([]int, []int) {
+	var moveLocations [8][2]int = [8][2]int{{1, 1}, {0, 1}, {-1, 1}, {1, 0}, {-1, 0}, {1, -1}, {0, -1}, {-1, -1}}
+	var validMoveLocations []int = make([]int, 0)
 
-	return delta_x >= -1 && delta_x <= 1 && delta_y >= -1 && delta_y <= 1
+	for _, location := range moveLocations {
+		var destination = start + location[0] + location[1]*self.Width
+		if destination >= self.Width*self.Height || destination < 0 {
+			continue
+		}
+
+		validMoveLocations = append(validMoveLocations, destination)
+	}
+
+	return validMoveLocations, validMoveLocations
 }
 
 func DefaultQueen(self board.Board, start int, end int) bool {
