@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"slices"
 	"time"
 
 	"prushton.com/randochess/v2/board"
@@ -52,8 +53,20 @@ func (self *Game) Move(start int, end int) error {
 		return fmt.Errorf("No rule found for piece")
 	}
 
-	if !rule(self.Board, start, end) {
-		return fmt.Errorf("Invalid move")
+	// depending on where the piece is moving to, we get either the valid move position or valid take positioon
+	var validMoveSpots []int
+
+	if self.Board.Pieces[start].GetPieceTeam().OtherTeam() == self.Board.Pieces[end].GetPieceTeam() {
+		// we are taking another piece, so check the places the piece can take
+		_, validMoveSpots = rule(self.Board, start, end)
+	} else {
+		// else check where they can move
+		validMoveSpots, _ = rule(self.Board, start, end)
+	}
+
+	if !slices.Contains(validMoveSpots[:], end) {
+		// fmt.Printf("%v\n%d\n", validMoveSpots, end)
+		return fmt.Errorf("Cannot move to specified spot")
 	}
 
 	if self.Board.Pieces[start].GetPieceTeam() == self.Board.Pieces[end].GetPieceTeam() {

@@ -65,70 +65,130 @@ func DefaultInitBoard(self *board.Board) error {
 	return nil
 }
 
-func DefaultPawn(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+func DefaultPawn(self board.Board, start int, end int) ([]int, []int) {
+	var validMoveLocations []int = make([]int, 0)
+	var validTakeLocations []int = make([]int, 0)
 
-	// moving backwards
-	if delta_y < 0 && self.Pieces[start].GetPieceTeam() == board.White {
-		return false
+	var team = self.Pieces[start].GetPieceTeam()
+	// white pawns move towards index 0, black pawns move away. This lets us combine the checks for each piece into one function
+	var direction = 0
+
+	if team == board.White {
+		direction = -1
+	} else {
+		direction = 1
 	}
 
-	if delta_y > 0 && self.Pieces[start].GetPieceTeam() == board.Black {
-		return false
+	if self.Pieces[start+direction*self.Width].GetPieceTeam() == board.NoTeam {
+		validMoveLocations = append(validMoveLocations, start+direction*self.Width)
 	}
 
-	// moving 1 space or 2 on first turn
-	if (Abs(delta_y) == 1 && delta_x == 0) || (Abs(delta_y) == 2 && !self.Pieces[start].GetPieceMoved()) {
-		return self.Pieces[end].GetPieceTeam() == board.NoTeam && CheckLineOfSight(self, start, end)
+	if self.Pieces[start+direction*2*self.Width].GetPieceTeam() == board.NoTeam && !self.Pieces[start].GetPieceMoved() {
+		validMoveLocations = append(validMoveLocations, start+direction*2*self.Width)
 	}
 
-	// taking
-	if Abs(delta_y) == 1 && Abs(delta_x) == 1 && self.Pieces[end].GetPieceTeam() != board.NoTeam {
-		return true
+	if self.Pieces[start+direction*self.Width+1].GetPieceTeam() == team.OtherTeam() {
+		validTakeLocations = append(validTakeLocations, start+direction*self.Width+1)
 	}
 
-	return false
+	if self.Pieces[start+direction*self.Width-1].GetPieceTeam() == team.OtherTeam() {
+		validTakeLocations = append(validTakeLocations, start+direction*self.Width-1)
+	}
+
+	return validMoveLocations, validTakeLocations
 }
 
-func DefaultRook(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+func DefaultRook(self board.Board, start int, end int) ([]int, []int) {
+	var validMoveLocations []int = make([]int, 0)
+	var directions [4][2]int = [4][2]int{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 
-	return ((delta_x == 0) != (delta_y == 0)) && CheckLineOfSight(self, start, end)
-}
+	// construct an array of spaces where the piece can move.
+	// Iterate over every direction and look until we reach the edge of the board or a piece
+	for _, direction := range directions {
+		var distance int = 1
+		var reachedLimit bool = false
 
-func DefaultKnight(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+		for !reachedLimit {
 
-	return (Abs(delta_x) == 1 && Abs(delta_y) == 2) || (Abs(delta_x) == 2 && Abs(delta_y) == 1)
-}
-func DefaultBishop(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+			destination := start + direction[0]*distance + direction[1]*self.Width*distance
 
-	return Abs(delta_x) == Abs(delta_y) && CheckLineOfSight(self, start, end)
-}
+			if CheckLineOfSight(self, start, destination) {
+				validMoveLocations = append(validMoveLocations, destination)
+			} else {
+				reachedLimit = true
+			}
 
-func DefaultKing(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
-
-	return delta_x >= -1 && delta_x <= 1 && delta_y >= -1 && delta_y <= 1
-}
-
-func DefaultQueen(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
-
-	if delta_x == 0 || delta_y == 0 {
-		return CheckLineOfSight(self, start, end)
+			distance += 1
+		}
 	}
 
-	if Abs(delta_x) == Abs(delta_y) {
-		return CheckLineOfSight(self, start, end)
+	// most pieces can take at the same spots they can move to, so i just return them both
+	return validMoveLocations, validMoveLocations
+}
+
+func DefaultKnight(self board.Board, start int, end int) ([]int, []int) {
+	var moveLocations [8][2]int = [8][2]int{{2, 1}, {2, -1}, {1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {-2, 1}, {-2, -1}}
+	var validMoveLocations []int = make([]int, 0)
+
+	for _, location := range moveLocations {
+		var destination = start + location[0] + location[1]*self.Width
+		if destination >= self.Width*self.Height || destination < 0 {
+			continue
+		}
+
+		validMoveLocations = append(validMoveLocations, destination)
 	}
 
-	return false
+	return validMoveLocations, validMoveLocations
+}
+
+func DefaultBishop(self board.Board, start int, end int) ([]int, []int) {
+	var validMoveLocations []int = make([]int, 0)
+	var directions [4][2]int = [4][2]int{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}}
+
+	// construct an array of spaces where the piece can move.
+	// Iterate over every direction and look until we reach the edge of the board or a piece
+	for _, direction := range directions {
+		var distance int = 1
+		var reachedLimit bool = false
+
+		for !reachedLimit {
+
+			destination := start + direction[0]*distance + direction[1]*self.Width*distance
+
+			if CheckLineOfSight(self, start, destination) {
+				validMoveLocations = append(validMoveLocations, destination)
+			} else {
+				reachedLimit = true
+			}
+
+			distance += 1
+		}
+	}
+
+	// most pieces can take at the same spots they can move to, so i just return them both
+	return validMoveLocations, validMoveLocations
+}
+
+func DefaultKing(self board.Board, start int, end int) ([]int, []int) {
+	var moveLocations [8][2]int = [8][2]int{{1, 1}, {0, 1}, {-1, 1}, {1, 0}, {-1, 0}, {1, -1}, {0, -1}, {-1, -1}}
+	var validMoveLocations []int = make([]int, 0)
+
+	for _, location := range moveLocations {
+		var destination = start + location[0] + location[1]*self.Width
+		if destination >= self.Width*self.Height || destination < 0 {
+			continue
+		}
+
+		validMoveLocations = append(validMoveLocations, destination)
+	}
+
+	return validMoveLocations, validMoveLocations
+}
+
+func DefaultQueen(self board.Board, start int, end int) ([]int, []int) {
+	var bishopMoves, bishopTakes = DefaultBishop(self, start, end)
+	var rookMoves, rookTakes = DefaultRook(self, start, end)
+
+	return append(bishopMoves, rookMoves...), append(bishopTakes, rookTakes...)
 }
