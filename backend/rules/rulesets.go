@@ -10,7 +10,7 @@ var AllRulesets map[string]Ruleset = map[string]Ruleset{
 		Name:        "Default",
 		Description: "Chess",
 		PieceRules: map[board.PieceType]func(board.Board, int, int) ([]int, []int){
-			// board.Pawn:   rsf.DefaultPawn,
+			board.Pawn:   rsf.DefaultPawn,
 			board.Rook:   rsf.DefaultRook,
 			board.Knight: rsf.DefaultKnight,
 			board.Bishop: rsf.DefaultBishop,
@@ -27,7 +27,7 @@ var AllRulesets map[string]Ruleset = map[string]Ruleset{
 		Name:        "Open World",
 		Description: "Chess on a 16x16 board",
 		PieceRules: map[board.PieceType]func(board.Board, int, int) ([]int, []int){
-			// board.Pawn:   rsf.DefaultPawn,
+			board.Pawn:   rsf.DefaultPawn,
 			board.Rook:   rsf.DefaultRook,
 			board.Knight: rsf.DefaultKnight,
 			board.Bishop: rsf.DefaultBishop,

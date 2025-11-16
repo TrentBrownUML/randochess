@@ -65,30 +65,37 @@ func DefaultInitBoard(self *board.Board) error {
 	return nil
 }
 
-func DefaultPawn(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+func DefaultPawn(self board.Board, start int, end int) ([]int, []int) {
+	var validMoveLocations []int = make([]int, 0)
+	var validTakeLocations []int = make([]int, 0)
 
-	// moving backwards
-	if delta_y < 0 && self.Pieces[start].GetPieceTeam() == board.White {
-		return false
+	var team = self.Pieces[start].GetPieceTeam()
+	// white pawns move towards index 0, black pawns move away. This lets us combine the checks for each piece into one function
+	var direction = 0
+
+	if team == board.White {
+		direction = -1
+	} else {
+		direction = 1
 	}
 
-	if delta_y > 0 && self.Pieces[start].GetPieceTeam() == board.Black {
-		return false
+	if self.Pieces[start+direction*self.Width].GetPieceTeam() == board.NoTeam {
+		validMoveLocations = append(validMoveLocations, start+direction*self.Width)
 	}
 
-	// moving 1 space or 2 on first turn
-	if (Abs(delta_y) == 1 && delta_x == 0) || (Abs(delta_y) == 2 && !self.Pieces[start].GetPieceMoved()) {
-		return self.Pieces[end].GetPieceTeam() == board.NoTeam && CheckLineOfSight(self, start, end)
+	if self.Pieces[start+direction*2*self.Width].GetPieceTeam() == board.NoTeam && !self.Pieces[start].GetPieceMoved() {
+		validMoveLocations = append(validMoveLocations, start+direction*2*self.Width)
 	}
 
-	// taking
-	if Abs(delta_y) == 1 && Abs(delta_x) == 1 && self.Pieces[end].GetPieceTeam() != board.NoTeam {
-		return true
+	if self.Pieces[start+direction*self.Width+1].GetPieceTeam() == team.OtherTeam() {
+		validTakeLocations = append(validTakeLocations, start+direction*self.Width+1)
 	}
 
-	return false
+	if self.Pieces[start+direction*self.Width-1].GetPieceTeam() == team.OtherTeam() {
+		validTakeLocations = append(validTakeLocations, start+direction*self.Width-1)
+	}
+
+	return validMoveLocations, validTakeLocations
 }
 
 func DefaultRook(self board.Board, start int, end int) ([]int, []int) {
