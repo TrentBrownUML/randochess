@@ -65,7 +65,7 @@ func (self *Game) Move(start int, end int) error {
 	}
 
 	if !slices.Contains(validMoveSpots[:], end) {
-		fmt.Printf("%v\n%d\n", validMoveSpots, end)
+		// fmt.Printf("%v\n%d\n", validMoveSpots, end)
 		return fmt.Errorf("Cannot move to specified spot")
 	}
 

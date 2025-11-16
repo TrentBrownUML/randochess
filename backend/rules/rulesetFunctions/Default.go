@@ -186,17 +186,9 @@ func DefaultKing(self board.Board, start int, end int) ([]int, []int) {
 	return validMoveLocations, validMoveLocations
 }
 
-func DefaultQueen(self board.Board, start int, end int) bool {
-	var delta_x int = start%self.Width - end%self.Width
-	var delta_y int = start/self.Height - end/self.Height
+func DefaultQueen(self board.Board, start int, end int) ([]int, []int) {
+	var bishopMoves, bishopTakes = DefaultBishop(self, start, end)
+	var rookMoves, rookTakes = DefaultRook(self, start, end)
 
-	if delta_x == 0 || delta_y == 0 {
-		return CheckLineOfSight(self, start, end)
-	}
-
-	if Abs(delta_x) == Abs(delta_y) {
-		return CheckLineOfSight(self, start, end)
-	}
-
-	return false
+	return append(bishopMoves, rookMoves...), append(bishopTakes, rookTakes...)
 }
